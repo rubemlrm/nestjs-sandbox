@@ -1,23 +1,17 @@
-import { PrismaService } from '@src/prisma/prisma.service';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
 import { CacheResult } from '@src/modules/redis/redis.decorator';
+import { Injectable } from '@nestjs/common';
+import { RecipeRepository } from '../../adapters/recipe_repository';
 
 @CommandHandler(RecipeCreateCommand)
+@Injectable()
 export class CreateRecipeHandler
   implements ICommandHandler<RecipeCreateCommand>
 {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly repository: RecipeRepository) {}
   @CacheResult(120)
   async execute(command: RecipeCreateCommand) {
-    const recipe = await this.prisma.recipe.create({
-      data: {
-        title: command.title,
-        ingredients: command.ingredients,
-        instructions: command.instructions,
-      },
-    });
-
-    return recipe;
+    return this.repository.create(command);
   }
 }
