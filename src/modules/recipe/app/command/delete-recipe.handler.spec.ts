@@ -18,14 +18,14 @@ describe('DeleteRecipeHandler', () => {
       ],
     }).compile();
     handler = module.get<DeleteRecipeHandler>(DeleteRecipeHandler);
-  })
+  });
 
   it('should delete a recipe', async () => {
     const command = await RecipeFactory.update();
-    const deletedRecipe = {...command};
+    const deletedRecipe = { ...command };
     prismaMock.recipe.update.mockResolvedValue(deletedRecipe);
 
     const result = await handler.execute(command.id);
     expect(result).toBeUndefined();
-  })
-})
+  });
+});

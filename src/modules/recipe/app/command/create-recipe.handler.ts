@@ -4,8 +4,10 @@ import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-reci
 import { CacheResult } from '@src/modules/redis/redis.decorator';
 
 @CommandHandler(RecipeCreateCommand)
-export class CreateRecipeHandler implements ICommandHandler<RecipeCreateCommand> {
-  constructor(private readonly prisma: PrismaService){}
+export class CreateRecipeHandler
+  implements ICommandHandler<RecipeCreateCommand>
+{
+  constructor(private readonly prisma: PrismaService) {}
   @CacheResult(120)
   async execute(command: RecipeCreateCommand) {
     const recipe = await this.prisma.recipe.create({

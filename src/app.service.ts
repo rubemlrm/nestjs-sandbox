@@ -7,7 +7,6 @@ export class AppService {
   }
 
   public getTest(): string {
-    return "string";
+    return 'string';
   }
-
 }

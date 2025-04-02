@@ -5,21 +5,22 @@ import { Cache } from 'cache-manager';
 import { QueryHandler } from '@src/modules/decorator/query';
 
 @Injectable()
-export class FindCommand implements QueryHandler<number, any>{
+export class FindCommand implements QueryHandler<number, any> {
+  constructor(
+    private readonly prisma: PrismaService,
+    @Inject(CACHE_MANAGER)
+    private cacheManager: Cache,
+  ) {}
 
-  constructor(private readonly prisma: PrismaService,
-              @Inject(CACHE_MANAGER)
-              private cacheManager: Cache){}
-
-  async handle(query: number) : Promise<any> {
+  async handle(query: number): Promise<any> {
     const cachedItem = await this.cacheManager.get(`recipe-${query}`);
-    if (cachedItem === "{}") {
+    if (cachedItem === '{}') {
       return cachedItem;
     }
 
     const item = await this.prisma.recipe.findUnique({
       where: { id: query },
-    })
+    });
     this.cacheManager.set(`recipe-${query}`, item, 10);
     return item;
   }

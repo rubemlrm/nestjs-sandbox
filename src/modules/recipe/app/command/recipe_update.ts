@@ -10,13 +10,14 @@ export class RecipeUpdateCommand implements CommandHandler<UpdateRecipeDto> {
   constructor(
     private readonly prisma: PrismaService,
     @Inject(CACHE_MANAGER)
-    private cacheManager: Cache) { }
+    private cacheManager: Cache,
+  ) {}
 
   async handle(updateRecipeDto: UpdateRecipeDto) {
     this.prisma.recipe.update({
       where: { id: updateRecipeDto.id },
       data: updateRecipeDto,
-    })
-    return null
+    });
+    return null;
   }
 }

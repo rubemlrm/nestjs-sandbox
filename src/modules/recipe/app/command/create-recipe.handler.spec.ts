@@ -18,11 +18,11 @@ describe('CreateRecipeHandler', () => {
       ],
     }).compile();
     handler = module.get<CreateRecipeHandler>(CreateRecipeHandler);
-  })
+  });
 
   it('should create a new recipe', async () => {
     const command = await RecipeFactory.create();
-    const createdRecipe = {...command, id: 1};
+    const createdRecipe = { ...command, id: 1 };
     prismaMock.recipe.create.mockResolvedValue(createdRecipe);
 
     const result = await handler.execute(command);
@@ -37,6 +37,7 @@ describe('CreateRecipeHandler', () => {
         title: createdRecipe.title,
         ingredients: createdRecipe.ingredients,
         instructions: createdRecipe.instructions,
-      },})
-  })
-})
+      },
+    });
+  });
+});

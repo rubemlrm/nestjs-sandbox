@@ -1,4 +1,4 @@
-import { IsString, IsOptional } from "class-validator";
+import { IsString, IsOptional } from 'class-validator';
 
 export class CreateRecipeDto {
   @IsString()
@@ -13,6 +13,4 @@ export class CreateRecipeDto {
 
   @IsString()
   instructions: string;
-
-
 }

@@ -4,9 +4,9 @@ export class RecipeCreateCommand implements ICommand {
   title: string;
   ingredients: string;
   instructions: string;
-  constructor(
-    title: string,
-    ingredients: string,
-    instructions: string, description?: string) {
+  constructor(title: string, ingredients: string, instructions: string) {
+    this.ingredients = ingredients;
+    this.instructions = instructions;
+    this.title = title;
   }
 }
