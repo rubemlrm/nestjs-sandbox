@@ -9,12 +9,15 @@ import {
 } from '@nestjs/common';
 import { CreateRecipeDto } from '../domain/recipe/create-recipe.dto';
 import { UpdateRecipeDto } from '../domain/recipe/update-recipe.dto';
+import { RecipeService } from '@src/modules/recipe/service/recipe.service';
 
 @Controller('recipe')
 export class RecipeController {
+  constructor(private readonly recipeService: RecipeService) {}
+
   @Post()
   create(@Body() createRecipeDto: CreateRecipeDto) {
-    console.log('createRecipeDto', createRecipeDto);
+    return this.recipeService.create(createRecipeDto);
   }
 
   @Get()
