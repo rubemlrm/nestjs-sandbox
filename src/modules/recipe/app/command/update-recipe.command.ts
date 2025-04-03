@@ -1,18 +1,20 @@
-export class Recipe {
+import { ICommand } from '@nestjs/cqrs';
+
+export class UpdateRecipeCommand implements ICommand {
+  id: number;
   title: string;
-  description: string;
   ingredients: string;
   instructions: string;
 
   constructor(
+    id: number,
     title: string,
     ingredients: string,
     instructions: string,
-    description?: string,
   ) {
-    this.title = title;
+    this.id = id;
     this.ingredients = ingredients;
     this.instructions = instructions;
-    this.description = description;
+    this.title = title;
   }
 }
