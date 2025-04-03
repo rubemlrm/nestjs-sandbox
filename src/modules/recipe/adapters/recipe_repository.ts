@@ -3,6 +3,7 @@ import { PrismaService } from '@src/prisma/prisma.service';
 import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
 import { Injectable } from '@nestjs/common';
+import { FindRecipeByQuery } from '../app/query/find-recipe-by.query';
 
 @Injectable()
 export class RecipeRepository implements Repository {
@@ -45,6 +46,17 @@ export class RecipeRepository implements Repository {
   async findAll(): Promise<any[]> {
     const recipes = await this.prisma.recipe.findMany();
     return recipes;
+  }
+
+  async findBy(query: FindRecipeByQuery): Promise<any> {
+    console.log(query);
+    const recipe = await this.prisma.recipe.findFirst({
+      where: {
+        title: query.title,
+      },
+    });
+    console.warn(recipe);
+    return recipe;
   }
 
   async delete(id: number): Promise<void> {

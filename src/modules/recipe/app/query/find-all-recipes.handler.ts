@@ -1,15 +1,16 @@
-import { Repository } from '@src/modules/recipe/entities/recipe.repository';
 import { Injectable } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindAllRecipesQuery } from '@src/modules/recipe/app/query/find-all-recipes-query';
-import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
+import { RecipeRepository } from '@src/modules/recipe/adapters/recipe_repository';
 
 @Injectable()
 @QueryHandler(FindAllRecipesQuery)
-export class FindAllCommand implements IQueryHandler<FindAllRecipesQuery> {
-  constructor(private readonly repository: Repository) {}
+export class FindAllRecipesHandler
+  implements IQueryHandler<FindAllRecipesQuery>
+{
+  constructor(private readonly repository: RecipeRepository) {}
 
-  async execute(query: FindRecipeQuery): Promise<any> {
+  async execute(query: null): Promise<any> {
     console.log('FindAllCommand', query);
     return await this.repository.findAll();
   }

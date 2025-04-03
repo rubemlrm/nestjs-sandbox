@@ -2,14 +2,15 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
-import { RecipeController } from '@src/modules/recipe/ports/recipe.controller';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ConfigModule } from '@nestjs/config';
 import * as redisStore from 'cache-manager-redis-store';
+import { RecipeModule } from '@src/modules/recipe/recipe.module';
 
 @Module({
   imports: [
     PrismaModule,
+    RecipeModule,
     CacheModule.register({
       isGlobal: true,
       store: redisStore,
@@ -20,7 +21,7 @@ import * as redisStore from 'cache-manager-redis-store';
       isGlobal: true,
     }),
   ],
-  controllers: [AppController, RecipeController],
+  controllers: [AppController],
 
   providers: [AppService],
 })
