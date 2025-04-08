@@ -4,6 +4,7 @@ import { UpdateRecipeHandler } from '@src/modules/recipe/app/command/update-reci
 import { faker } from '@faker-js/faker';
 import { Repository } from '../../entities/recipe.repository';
 import { RecipeRepository } from '../../adapters/recipe_repository';
+import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
 
 const recipeRepositoryMock: jest.Mocked<Repository> = {
   create: jest.fn(),
@@ -30,13 +31,14 @@ describe('UpdateRecipeHandler', () => {
   });
 
   it('should update a recipe', async () => {
-    const command = await RecipeFactory.update();
-    const updatedRecipe = { ...command, title: faker.food.dish() };
+    const data = await RecipeFactory.update();
+    const updatedRecipe = { ...data, title: faker.food.dish() };
+    const command = new UpdateRecipeCommand(data);
     recipeRepositoryMock.update.mockResolvedValue(updatedRecipe);
 
     const result = await handler.execute(command);
     expect(result).toEqual({
-      id: expect.any(Number),
+      id: updatedRecipe.id,
       title: updatedRecipe.title,
       ingredients: updatedRecipe.ingredients,
       instructions: updatedRecipe.instructions,
@@ -44,7 +46,7 @@ describe('UpdateRecipeHandler', () => {
   });
 
   it('should throw an exception', async () => {
-    const command = await RecipeFactory.update();
+    const command = new UpdateRecipeCommand(await RecipeFactory.update());
     recipeRepositoryMock.update.mockRejectedValue(
       new Error('Error updating recipe'),
     );
