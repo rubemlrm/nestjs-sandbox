@@ -11,16 +11,20 @@ import { TitleExistsValidator } from '@src/modules/recipe/validators/unique-titl
 import { FindRecipeByHandler } from './app/query/find-recipe-by.handler';
 import { FindRecipeHandler } from '@src/modules/recipe/app/query/find-recipe.handler';
 import { FindAllRecipesHandler } from '@src/modules/recipe/app/query/find-all-recipes.handler';
+import { LoggingCommandbus } from '@src/modules/common/logging/logging.commandbus';
+import { LoggingQuerybus } from '@src/modules/common/logging/logging.querybus';
 
 const CommandHandlers = [
   CreateRecipeHandler,
   UpdateRecipeHandler,
   DeleteRecipeHandler,
+  LoggingCommandbus,
 ];
 const QueryHandlers = [
   FindRecipeByHandler,
   FindRecipeHandler,
   FindAllRecipesHandler,
+  LoggingQuerybus,
 ];
 const Validators = [TitleExistsValidator];
 const Repositories = [RecipeRepository];

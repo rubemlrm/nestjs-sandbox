@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
 import { FindRecipeByQuery } from '@src/modules/recipe/app/query/find-recipe-by.query';
 import { CreateRecipeDto } from '../domain/recipe/create-recipe.dto';
@@ -8,12 +7,14 @@ import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query
 import { FindAllRecipesQuery } from '@src/modules/recipe/app/query/find-all-recipes-query';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
 import { DeleteRecipeCommand } from '@src/modules/recipe/app/command/delete-recipe.command';
+import { LoggingQuerybus } from '@src/modules/common/logging/logging.querybus';
+import { LoggingCommandbus } from '@src/modules/common/logging/logging.commandbus';
 
 @Injectable()
 export class RecipeService {
   constructor(
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus,
+    private readonly commandBus: LoggingCommandbus,
+    private readonly queryBus: LoggingQuerybus,
   ) {}
 
   async create(command: CreateRecipeDto) {

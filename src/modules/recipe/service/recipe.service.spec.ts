@@ -10,6 +10,8 @@ import { FindAllRecipesQuery } from '@src/modules/recipe/app/query/find-all-reci
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
 import { RecipeNotFoundException } from '@src/modules/recipe/app/exception/recipe-not-found.exception';
 import { DeleteRecipeCommand } from '@src/modules/recipe/app/command/delete-recipe.command';
+import { LoggingCommandbus } from '@src/modules/common/logging/logging.commandbus';
+import { LoggingQuerybus } from '@src/modules/common/logging/logging.querybus';
 
 describe('RecipeService', () => {
   let service: RecipeService;
@@ -20,6 +22,8 @@ describe('RecipeService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         RecipeService,
+        LoggingCommandbus,
+        LoggingQuerybus,
         {
           provide: CommandBus,
           useValue: { execute: jest.fn() },
