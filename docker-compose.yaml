@@ -1,3 +1,4 @@
+name: recipe
 services:
   postgres:
     image: postgres

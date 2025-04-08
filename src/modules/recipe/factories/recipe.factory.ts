@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker';
-import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
-import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
+import { CreateRecipeDto } from '@src/modules/recipe/domain/recipe/create-recipe.dto';
+import { UpdateRecipeDto } from '@src/modules/recipe/domain/recipe/update-recipe.dto';
 
 export class RecipeFactory {
-  static async create(): Promise<RecipeCreateCommand> {
+  static async create(): Promise<CreateRecipeDto> {
     return {
       title: faker.food.dish(),
       ingredients: faker.food.ingredient(),
@@ -11,7 +11,7 @@ export class RecipeFactory {
     };
   }
 
-  static async update(): Promise<UpdateRecipeCommand> {
+  static async update(): Promise<UpdateRecipeDto> {
     return {
       id: faker.number.int({ min: 1, max: 100 }),
       title: faker.food.dish(),

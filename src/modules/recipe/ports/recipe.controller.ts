@@ -6,12 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  UseFilters,
 } from '@nestjs/common';
 import { CreateRecipeDto } from '../domain/recipe/create-recipe.dto';
 import { UpdateRecipeDto } from '../domain/recipe/update-recipe.dto';
 import { RecipeService } from '@src/modules/recipe/service/recipe.service';
+import { RecipeExceptionFilter } from '@src/modules/recipe/app/filter/recipe-exception.filter';
 
 @Controller('recipe')
+@UseFilters(new RecipeExceptionFilter())
 export class RecipeController {
   constructor(private readonly recipeService: RecipeService) {}
 
@@ -21,20 +24,22 @@ export class RecipeController {
   }
 
   @Get()
-  async findAll() {}
+  async findAll() {
+    return this.recipeService.findAll();
+  }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    console.log('findOne', id);
+  async findOne(@Param('id') id: number) {
+    return await this.recipeService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto) {
-    console.log('updateRecipeDto', updateRecipeDto);
+  update(@Param('id') id: number, @Body() updateRecipeDto: UpdateRecipeDto) {
+    return this.recipeService.update(id, updateRecipeDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    console.log('remove', id);
+  remove(@Param('id') id: number) {
+    return this.recipeService.remove(id);
   }
 }

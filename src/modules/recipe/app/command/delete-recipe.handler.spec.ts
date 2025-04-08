@@ -1,8 +1,9 @@
 import { DeleteRecipeHandler } from '@src/modules/recipe/app/command/delete-recipe.handler';
 import { Test, TestingModule } from '@nestjs/testing';
-import { RecipeFactory } from '@src/modules/recipe/factories/recipe.factory';
 import { RecipeRepository } from '../../adapters/recipe_repository';
 import { Repository } from '../../entities/recipe.repository';
+import { faker } from '@faker-js/faker';
+import { DeleteRecipeCommand } from '@src/modules/recipe/app/command/delete-recipe.command';
 
 const recipeRepositoryMock: jest.Mocked<Repository> = {
   create: jest.fn(),
@@ -29,10 +30,10 @@ describe('DeleteRecipeHandler', () => {
   });
 
   it('should delete a recipe', async () => {
-    const command = await RecipeFactory.update();
-    recipeRepositoryMock.delete.mockResolvedValue(undefined);
+    const command = new DeleteRecipeCommand(faker.number.int());
+    recipeRepositoryMock.delete.mockResolvedValue(true);
 
-    const result = await handler.execute(command.id);
-    expect(result).toBeUndefined();
+    const result = await handler.execute(command);
+    expect(result).toEqual('Recipe deleted successfully');
   });
 });

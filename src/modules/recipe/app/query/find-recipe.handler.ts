@@ -2,13 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
 import { RecipeRepository } from '@src/modules/recipe/adapters/recipe_repository';
+import { RecipeNotFoundException } from '../exception/recipe-not-found.exception';
 
 @Injectable()
 @QueryHandler(FindRecipeQuery)
-export class FindRecipeHandler implements IQueryHandler<number> {
+export class FindRecipeHandler implements IQueryHandler<FindRecipeQuery> {
   constructor(private readonly repository: RecipeRepository) {}
 
-  async execute(query: number): Promise<any> {
-    return this.repository.findOne(query);
+  async execute(query: FindRecipeQuery): Promise<any> {
+    try {
+      const recipe = await this.repository.findOne(query);
+      if (!recipe) {
+        throw new RecipeNotFoundException(query.id);
+      }
+
+      return recipe;
+    } catch (error) {
+      throw error;
+    }
   }
 }
