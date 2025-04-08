@@ -9,21 +9,33 @@ import { RecipeRepository } from './adapters/recipe_repository';
 import { RecipeService } from '@src/modules/recipe/service/recipe.service';
 import { TitleExistsValidator } from '@src/modules/recipe/validators/unique-title.validator';
 import { FindRecipeByHandler } from './app/query/find-recipe-by.handler';
+import { FindRecipeHandler } from '@src/modules/recipe/app/query/find-recipe.handler';
+import { FindAllRecipesHandler } from '@src/modules/recipe/app/query/find-all-recipes.handler';
+
+const CommandHandlers = [
+  CreateRecipeHandler,
+  UpdateRecipeHandler,
+  DeleteRecipeHandler,
+];
+const QueryHandlers = [
+  FindRecipeByHandler,
+  FindRecipeHandler,
+  FindAllRecipesHandler,
+];
+const Validators = [TitleExistsValidator];
+const Repositories = [RecipeRepository];
+const Services = [RecipeService];
+const Filters = [];
 
 @Module({
   imports: [PrismaModule, CqrsModule],
   providers: [
-    RecipeService,
-    CreateRecipeHandler,
-    UpdateRecipeHandler,
-    DeleteRecipeHandler,
-    TitleExistsValidator,
-    FindRecipeByHandler,
-    RecipeRepository,
-    {
-      provide: 'Repository',
-      useClass: RecipeRepository,
-    },
+    ...Services,
+    ...CommandHandlers,
+    ...QueryHandlers,
+    ...Validators,
+    ...Repositories,
+    ...Filters,
   ],
   controllers: [RecipeController],
   exports: [RecipeService],

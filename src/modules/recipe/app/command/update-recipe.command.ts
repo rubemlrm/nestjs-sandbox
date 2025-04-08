@@ -1,20 +1,6 @@
 import { ICommand } from '@nestjs/cqrs';
+import { UpdateRecipeDto } from '@src/modules/recipe/domain/recipe/update-recipe.dto';
 
 export class UpdateRecipeCommand implements ICommand {
-  id: number;
-  title: string;
-  ingredients: string;
-  instructions: string;
-
-  constructor(
-    id: number,
-    title: string,
-    ingredients: string,
-    instructions: string,
-  ) {
-    this.id = id;
-    this.ingredients = ingredients;
-    this.instructions = instructions;
-    this.title = title;
-  }
+  constructor(public readonly data: UpdateRecipeDto) {}
 }

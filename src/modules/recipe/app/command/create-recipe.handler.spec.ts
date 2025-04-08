@@ -5,6 +5,7 @@ import { PrismaModule } from '@src/prisma/prisma.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { Repository } from '../../entities/recipe.repository';
 import { RecipeRepository } from '../../adapters/recipe_repository';
+import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
 
 const recipeRepositoryMock: jest.Mocked<Repository> = {
   create: jest.fn(),
@@ -32,7 +33,7 @@ describe('CreateRecipeHandler', () => {
   });
 
   it('should create a new recipe', async () => {
-    const command = await RecipeFactory.create();
+    const command = new RecipeCreateCommand(await RecipeFactory.create());
     const createdRecipe = { ...command, id: 1 };
     recipeRepositoryMock.create.mockResolvedValue(createdRecipe);
 

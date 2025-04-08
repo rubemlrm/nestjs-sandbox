@@ -4,6 +4,9 @@ import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-reci
 import { FindRecipeByQuery } from '@src/modules/recipe/app/query/find-recipe-by.query';
 import { CreateRecipeDto } from '../domain/recipe/create-recipe.dto';
 import { UpdateRecipeDto } from '../domain/recipe/update-recipe.dto';
+import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
+import { FindAllRecipesQuery } from '@src/modules/recipe/app/query/find-all-recipes-query';
+import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
 
 @Injectable()
 export class RecipeService {
@@ -21,16 +24,16 @@ export class RecipeService {
   }
 
   async findAll() {
-    console.log('findAll');
+    return this.queryBus.execute(new FindAllRecipesQuery(1));
   }
 
-  async findOne(id: string) {
-    console.log('findOne', id);
+  async findOne(id: number) {
+    return this.queryBus.execute(new FindRecipeQuery(id));
   }
-  update(id: string, updateRecipeDto: UpdateRecipeDto) {
-    console.log('updateRecipeDto', updateRecipeDto);
+  update(id: number, updateRecipeDto: UpdateRecipeDto) {
+    return this.commandBus.execute(new UpdateRecipeCommand(updateRecipeDto));
   }
-  remove(id: string) {
-    console.log('remove', id);
+  remove(id: number) {
+    return this.queryBus.execute(new FindRecipeQuery(id));
   }
 }

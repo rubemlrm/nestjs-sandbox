@@ -1,7 +1,7 @@
-import { Recipe } from '@src/modules/recipe/entities/recipe.entity';
 import { Query } from '@nestjs/cqrs';
+import { SingleRecipeDto } from '@src/modules/recipe/domain/recipe/single-recipe.dto';
 
-export class FindRecipeQuery extends Query<Recipe> {
+export class FindRecipeQuery extends Query<SingleRecipeDto> {
   constructor(public readonly id: number) {
     super();
   }

@@ -1,7 +1,7 @@
-import { Recipe } from '@src/modules/recipe/entities/recipe.entity';
 import { Query } from '@nestjs/cqrs';
+import { Recipe } from '@prisma/client';
 
-export class FindAllRecipesQuery extends Query<Recipe> {
+export class FindAllRecipesQuery extends Query<Recipe[]> {
   constructor(public readonly id: number) {
     super();
   }

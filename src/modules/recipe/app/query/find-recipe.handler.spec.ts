@@ -5,6 +5,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { Repository } from '../../entities/recipe.repository';
 import { RecipeRepository } from '../../adapters/recipe_repository';
 import { FindRecipeHandler } from '@src/modules/recipe/app/query/find-recipe.handler';
+import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
 
 const recipeRepositoryMock: jest.Mocked<Repository> = {
   create: jest.fn(),
@@ -36,7 +37,7 @@ describe('FindRecipeHandler', () => {
     const createdRecipe = { ...command, id: 1 };
     recipeRepositoryMock.findOne.mockResolvedValue(createdRecipe);
 
-    const result = await handler.execute(createdRecipe.id);
+    const result = await handler.execute(new FindRecipeQuery(createdRecipe.id));
     expect(result).toEqual(createdRecipe);
   });
 });

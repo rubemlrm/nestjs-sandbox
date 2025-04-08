@@ -4,6 +4,7 @@ import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-reci
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
 import { TestingModule, Test } from '@nestjs/testing';
 import { RecipeFactory } from '../factories/recipe.factory';
+import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
 
 describe('RecipeRepository', () => {
   let recipeRepository: RecipeRepository;
@@ -34,14 +35,15 @@ describe('RecipeRepository', () => {
 
   describe('create', () => {
     it('should create a recipe', async () => {
-      const recipeCommand: RecipeCreateCommand = await RecipeFactory.create();
+      const data = await RecipeFactory.create();
+      const recipeCommand: RecipeCreateCommand = new RecipeCreateCommand(data);
       const createdRecipe = { id: 1, ...recipeCommand };
       prismaMock.recipe.create.mockResolvedValue(createdRecipe);
 
       const result = await recipeRepository.create(recipeCommand);
 
       expect(prismaMock.recipe.create).toHaveBeenCalledWith({
-        data: recipeCommand,
+        data: data,
       });
       expect(result).toEqual(createdRecipe);
     });
@@ -50,7 +52,9 @@ describe('RecipeRepository', () => {
   describe('update', () => {
     it('should update a recipe', async () => {
       const id = 1;
-      const updateCommand: UpdateRecipeCommand = await RecipeFactory.update();
+      const updateCommand: UpdateRecipeCommand = new UpdateRecipeCommand(
+        await RecipeFactory.update(),
+      );
       const updatedRecipe = { id, ...updateCommand };
       prismaMock.recipe.update.mockResolvedValue(updatedRecipe);
 
@@ -65,7 +69,9 @@ describe('RecipeRepository', () => {
 
     it('should throw an error if update fails', async () => {
       const id = 1;
-      const updateCommand: UpdateRecipeCommand = await RecipeFactory.update();
+      const updateCommand: UpdateRecipeCommand = new UpdateRecipeCommand(
+        await RecipeFactory.update(),
+      );
       prismaMock.recipe.update.mockRejectedValue(new Error('Update failed'));
 
       await expect(recipeRepository.update(id, updateCommand)).rejects.toThrow(
@@ -85,7 +91,7 @@ describe('RecipeRepository', () => {
       };
       prismaMock.recipe.findUnique.mockResolvedValue(recipe);
 
-      const result = await recipeRepository.findOne(id);
+      const result = await recipeRepository.findOne(new FindRecipeQuery(id));
 
       expect(prismaMock.recipe.findUnique).toHaveBeenCalledWith({
         where: { id },
