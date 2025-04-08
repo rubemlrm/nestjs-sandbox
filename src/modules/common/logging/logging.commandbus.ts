@@ -9,11 +9,15 @@ export class LoggingCommandbus {
     const commandName = command.constructor.name;
     this.logger.log(`Executing Command: ${commandName}`);
 
-    const start = Date.now();
-    const result = await this.commandBus.execute(command);
-    const duration = Date.now() - start;
-
-    this.logger.log(`Command ${commandName} completed in ${duration}ms`);
-    return result;
+    try {
+      const start = Date.now();
+      const result = await this.commandBus.execute(command);
+      const duration = Date.now() - start;
+      this.logger.log(`Command ${commandName} completed in ${duration}ms`);
+      return result;
+    } catch (error) {
+      this.logger.warn(`Error logging command ${commandName}: ${error}`);
+      throw error;
+    }
   }
 }

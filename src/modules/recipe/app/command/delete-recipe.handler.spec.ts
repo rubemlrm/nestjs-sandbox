@@ -4,6 +4,7 @@ import { RecipeRepository } from '../../adapters/recipe_repository';
 import { Repository } from '../../entities/recipe.repository';
 import { faker } from '@faker-js/faker';
 import { DeleteRecipeCommand } from '@src/modules/recipe/app/command/delete-recipe.command';
+import { RecipeNotFoundException } from '@src/modules/recipe/app/exception/recipe-not-found.exception';
 
 const recipeRepositoryMock: jest.Mocked<Repository> = {
   create: jest.fn(),
@@ -35,5 +36,14 @@ describe('DeleteRecipeHandler', () => {
 
     const result = await handler.execute(command);
     expect(result).toEqual('Recipe deleted successfully');
+  });
+
+  it('should throw an exception when deleting a recipe', async () => {
+    const id = faker.number.int();
+    const command = new DeleteRecipeCommand(id);
+    recipeRepositoryMock.delete.mockResolvedValue(false);
+    await expect(handler.execute(command)).rejects.toThrow(
+      new RecipeNotFoundException(id),
+    );
   });
 });

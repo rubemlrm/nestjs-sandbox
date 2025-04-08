@@ -6,6 +6,8 @@ import { Repository } from '../../entities/recipe.repository';
 import { RecipeRepository } from '../../adapters/recipe_repository';
 import { FindRecipeHandler } from '@src/modules/recipe/app/query/find-recipe.handler';
 import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
+import { faker } from '@faker-js/faker';
+import { RecipeNotFoundException } from '@src/modules/recipe/app/exception/recipe-not-found.exception';
 
 const recipeRepositoryMock: jest.Mocked<Repository> = {
   create: jest.fn(),
@@ -39,5 +41,14 @@ describe('FindRecipeHandler', () => {
 
     const result = await handler.execute(new FindRecipeQuery(createdRecipe.id));
     expect(result).toEqual(createdRecipe);
+  });
+
+  it('should throw an exception because a not found recipe', async () => {
+    const id = faker.number.int();
+    const query = new FindRecipeQuery(id);
+    recipeRepositoryMock.findOne.mockResolvedValue(undefined);
+    await expect(handler.execute(query)).rejects.toThrow(
+      RecipeNotFoundException,
+    );
   });
 });
