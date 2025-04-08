@@ -9,6 +9,7 @@ import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query
 import { FindAllRecipesQuery } from '@src/modules/recipe/app/query/find-all-recipes-query';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
 import { RecipeNotFoundException } from '@src/modules/recipe/app/exception/recipe-not-found.exception';
+import { DeleteRecipeCommand } from '@src/modules/recipe/app/command/delete-recipe.command';
 
 describe('RecipeService', () => {
   let service: RecipeService;
@@ -117,7 +118,7 @@ describe('RecipeService', () => {
       ingredients: 'Updated Ingredients',
       instructions: 'Updated Instructions',
     };
-    const command = new UpdateRecipeCommand(updateRecipeDto);
+    const command = new UpdateRecipeCommand(id, updateRecipeDto);
     jest.spyOn(commandBus, 'execute').mockResolvedValue(updateRecipeDto);
 
     const result = await service.update(id, updateRecipeDto);
@@ -128,25 +129,25 @@ describe('RecipeService', () => {
 
   it('deletes a recipe successfully', async () => {
     const id = 1;
-    const findRecipeQuery = new FindRecipeQuery(id);
-    jest.spyOn(queryBus, 'execute').mockResolvedValue(undefined);
+    const deleteRecipeCommand = new DeleteRecipeCommand(id);
+    jest.spyOn(commandBus, 'execute').mockResolvedValue(undefined);
 
     const result = await service.remove(id);
 
     expect(result).toBeUndefined();
-    expect(queryBus.execute).toHaveBeenCalledWith(findRecipeQuery);
+    expect(commandBus.execute).toHaveBeenCalledWith(deleteRecipeCommand);
   });
 
   it("throw exception on recipe delete if recipe doesn't exist.", async () => {
     jest
-      .spyOn(queryBus, 'execute')
+      .spyOn(commandBus, 'execute')
       .mockRejectedValue(new RecipeNotFoundException(1));
     await expect(service.remove(1)).rejects.toThrow(RecipeNotFoundException);
   });
 
   it("throw generic exception on recipe delete if recipe doesn't exist.", async () => {
     jest
-      .spyOn(queryBus, 'execute')
+      .spyOn(commandBus, 'execute')
       .mockRejectedValue(new Error(`Error deleting recipe: 1`));
     await expect(service.remove(1)).rejects.toThrow(
       new Error(`Error deleting recipe: 1`),
