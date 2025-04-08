@@ -10,7 +10,7 @@ export class FindAllRecipesHandler
 {
   constructor(private readonly repository: RecipeRepository) {}
 
-  async execute(query: null): Promise<any> {
+  async execute(_query: null): Promise<any> {
     return await this.repository.findAll();
   }
 }
