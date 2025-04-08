@@ -11,7 +11,6 @@ export class FindAllRecipesHandler
   constructor(private readonly repository: RecipeRepository) {}
 
   async execute(query: null): Promise<any> {
-    console.log('FindAllCommand', query);
     return await this.repository.findAll();
   }
 }

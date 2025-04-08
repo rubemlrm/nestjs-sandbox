@@ -53,16 +53,17 @@ describe('RecipeRepository', () => {
     it('should update a recipe', async () => {
       const id = 1;
       const updateCommand: UpdateRecipeCommand = new UpdateRecipeCommand(
+        id,
         await RecipeFactory.update(),
       );
       const updatedRecipe = { id, ...updateCommand };
       prismaMock.recipe.update.mockResolvedValue(updatedRecipe);
 
-      const result = await recipeRepository.update(id, updateCommand);
+      const result = await recipeRepository.update(updateCommand);
 
       expect(prismaMock.recipe.update).toHaveBeenCalledWith({
         where: { id },
-        data: updateCommand,
+        data: updateCommand.data,
       });
       expect(result).toEqual(updatedRecipe);
     });
@@ -70,11 +71,12 @@ describe('RecipeRepository', () => {
     it('should throw an error if update fails', async () => {
       const id = 1;
       const updateCommand: UpdateRecipeCommand = new UpdateRecipeCommand(
+        id,
         await RecipeFactory.update(),
       );
       prismaMock.recipe.update.mockRejectedValue(new Error('Update failed'));
 
-      await expect(recipeRepository.update(id, updateCommand)).rejects.toThrow(
+      await expect(recipeRepository.update(updateCommand)).rejects.toThrow(
         'Error updating recipe: Update failed',
       );
     });

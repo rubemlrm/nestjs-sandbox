@@ -33,7 +33,7 @@ describe('UpdateRecipeHandler', () => {
   it('should update a recipe', async () => {
     const data = await RecipeFactory.update();
     const updatedRecipe = { ...data, title: faker.food.dish() };
-    const command = new UpdateRecipeCommand(data);
+    const command = new UpdateRecipeCommand(1, data);
     recipeRepositoryMock.update.mockResolvedValue(updatedRecipe);
 
     const result = await handler.execute(command);
@@ -46,7 +46,7 @@ describe('UpdateRecipeHandler', () => {
   });
 
   it('should throw an exception', async () => {
-    const command = new UpdateRecipeCommand(await RecipeFactory.update());
+    const command = new UpdateRecipeCommand(1, await RecipeFactory.update());
     recipeRepositoryMock.update.mockRejectedValue(
       new Error('Error updating recipe'),
     );

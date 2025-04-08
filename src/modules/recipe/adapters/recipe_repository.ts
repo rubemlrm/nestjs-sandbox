@@ -35,19 +35,16 @@ export class RecipeRepository implements Repository {
     }
   }
 
-  async update(
-    id: number,
-    recipe: UpdateRecipeCommand,
-  ): Promise<UpdateRecipeDto | null> {
+  async update(recipe: UpdateRecipeCommand): Promise<UpdateRecipeDto | null> {
     try {
       return await this.prisma.recipe.update({
-        where: { id: id },
-        data: recipe,
+        where: { id: recipe.id },
+        data: recipe.data,
       });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
-          throw new Error(`Recipe with ID ${id} not found.`);
+          throw new Error(`Recipe with ID ${recipe.id} not found.`);
         }
       }
       throw new Error(`Error updating recipe: ${error.message}`);

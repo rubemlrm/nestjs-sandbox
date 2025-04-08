@@ -7,6 +7,7 @@ import { UpdateRecipeDto } from '../domain/recipe/update-recipe.dto';
 import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
 import { FindAllRecipesQuery } from '@src/modules/recipe/app/query/find-all-recipes-query';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
+import { DeleteRecipeCommand } from '@src/modules/recipe/app/command/delete-recipe.command';
 
 @Injectable()
 export class RecipeService {
@@ -31,9 +32,11 @@ export class RecipeService {
     return this.queryBus.execute(new FindRecipeQuery(id));
   }
   update(id: number, updateRecipeDto: UpdateRecipeDto) {
-    return this.commandBus.execute(new UpdateRecipeCommand(updateRecipeDto));
+    return this.commandBus.execute(
+      new UpdateRecipeCommand(id, updateRecipeDto),
+    );
   }
   remove(id: number) {
-    return this.queryBus.execute(new FindRecipeQuery(id));
+    return this.commandBus.execute(new DeleteRecipeCommand(id));
   }
 }
