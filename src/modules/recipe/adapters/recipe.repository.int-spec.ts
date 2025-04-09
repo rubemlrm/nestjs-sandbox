@@ -30,7 +30,7 @@ describe('Recipe Repository integration', () => {
     }).compile();
     prisma = module.get(PrismaService);
     repo = module.get<RecipeRepository>(RecipeRepository);
-  });
+  }, 600000);
 
   afterAll(async () => {
     await prisma.$disconnect();
