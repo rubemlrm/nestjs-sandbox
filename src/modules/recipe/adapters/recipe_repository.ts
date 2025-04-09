@@ -54,6 +54,7 @@ export class RecipeRepository implements Repository {
           throw new Error(`Recipe with ID ${recipe.id} not found.`);
         }
       }
+      this.logger.error(`Error updating recipe: ${error.message}`);
       throw new Error(`Error updating recipe: ${error.message}`);
     }
   }
