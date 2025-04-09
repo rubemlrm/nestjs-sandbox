@@ -33,10 +33,9 @@ export class RecipeRepository implements Repository {
           );
           throw new Error('A recipe with this title already exists.');
         }
-        if (error.code === 'P2012') {
-          this.logger.error(`Missing required fields for creating a recipe.`);
-          throw new Error('Missing required fields for creating a recipe.');
-        }
+      }
+      if (error instanceof Prisma.PrismaClientValidationError) {
+        throw new Error(`Validation error: ${error.message}`);
       }
       throw new Error(`Error creating new recipe: ${error.message}`);
     }

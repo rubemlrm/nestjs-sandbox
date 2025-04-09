@@ -80,11 +80,14 @@ describe('RecipeRepository', () => {
     it('should throw an error if exists missing fields', async () => {
       const data = await RecipeFactory.create();
       const recipeCommand: RecipeCreateCommand = new RecipeCreateCommand(data);
-      const knowErrorParams = {
-        code: 'P2012',
-      } as Prisma.PrismaClientKnownRequestError;
+      const knowErrorParams = new Prisma.PrismaClientValidationError(
+        'Missing required fields for creating a recipe.',
+        {
+          clientVersion: '4.0.0',
+        },
+      );
       prismaMock.recipe.create.mockRejectedValue(
-        new Prisma.PrismaClientKnownRequestError(
+        new Prisma.PrismaClientValidationError(
           `Missing required fields for creating a recipe.`,
           knowErrorParams,
         ),
