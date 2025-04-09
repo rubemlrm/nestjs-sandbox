@@ -1,4 +1,4 @@
-import { RecipeRepository } from './recipe_repository';
+import { RecipeRepository } from './recipe.repository';
 import { PrismaService } from '@src/prisma/prisma.service';
 import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';

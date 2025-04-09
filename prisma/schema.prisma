@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "./node_modules/@prisma/client"
 }
 
 datasource db {
@@ -14,11 +15,11 @@ datasource db {
 }
 
 model Recipe {
-  id Int @id @default(autoincrement())
-  title String @unique
-  description String?
-  ingredients String
+  id           Int      @id @default(autoincrement())
+  title        String   @unique
+  description  String?
+  ingredients  String
   instructions String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
