@@ -12,7 +12,7 @@ export class DeleteRecipeHandler
   constructor(private readonly repository: RecipeRepository) {}
 
   async execute(command: DeleteRecipeCommand): Promise<any> {
-    const isDeleted = this.repository.delete(command.id);
+    const isDeleted = await this.repository.delete(command.id);
     if (isDeleted) {
       return 'Recipe deleted successfully';
     }
