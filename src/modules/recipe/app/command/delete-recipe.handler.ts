@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DeleteRecipeCommand } from '@src/modules/recipe/app/command/delete-recipe.command';
-import { RecipeRepository } from '../../adapters/recipe_repository';
+import { RecipeRepository } from '../../adapters/recipe.repository';
 import { RecipeNotFoundException } from '@src/modules/recipe/app/exception/recipe-not-found.exception';
 
 @Injectable()

@@ -3,7 +3,7 @@ import { RecipeFactory } from '@src/modules/recipe/factories/recipe.factory';
 import { PrismaModule } from '@src/prisma/prisma.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { Repository } from '../../entities/recipe.repository';
-import { RecipeRepository } from '../../adapters/recipe_repository';
+import { RecipeRepository } from '../../adapters/recipe.repository';
 import { FindAllRecipesHandler } from '@src/modules/recipe/app/query/find-all-recipes.handler';
 
 const recipeRepositoryMock: jest.Mocked<Repository> = {

@@ -1,6 +1,6 @@
 import { DeleteRecipeHandler } from '@src/modules/recipe/app/command/delete-recipe.handler';
 import { Test, TestingModule } from '@nestjs/testing';
-import { RecipeRepository } from '../../adapters/recipe_repository';
+import { RecipeRepository } from '../../adapters/recipe.repository';
 import { Repository } from '../../entities/recipe.repository';
 import { faker } from '@faker-js/faker';
 import { DeleteRecipeCommand } from '@src/modules/recipe/app/command/delete-recipe.command';
