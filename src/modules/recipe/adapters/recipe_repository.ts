@@ -2,7 +2,7 @@ import { Repository } from '@src/modules/recipe/entities/recipe.repository';
 import { PrismaService } from '@src/prisma/prisma.service';
 import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { FindRecipeByQuery } from '../app/query/find-recipe-by.query';
 import { Prisma, Recipe } from '@prisma/client';
 import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
@@ -11,7 +11,10 @@ import { SingleRecipeDto } from '@src/modules/recipe/domain/recipe/single-recipe
 
 @Injectable()
 export class RecipeRepository implements Repository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly logger: Logger,
+  ) {}
 
   async create(recipe: RecipeCreateCommand): Promise<any> {
     try {
@@ -25,9 +28,13 @@ export class RecipeRepository implements Repository {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
+          this.logger.error(
+            `Recipe with title ${recipe.data.title} already exists.`,
+          );
           throw new Error('A recipe with this title already exists.');
         }
         if (error.code === 'P2012') {
+          this.logger.error(`Missing required fields for creating a recipe.`);
           throw new Error('Missing required fields for creating a recipe.');
         }
       }
@@ -47,22 +54,23 @@ export class RecipeRepository implements Repository {
           throw new Error(`Recipe with ID ${recipe.id} not found.`);
         }
       }
+      this.logger.error(`Error updating recipe: ${error.message}`);
       throw new Error(`Error updating recipe: ${error.message}`);
     }
   }
 
   async findOne(id: FindRecipeQuery): Promise<SingleRecipeDto | any> {
-    return await this.prisma.recipe.findUnique({
+    return this.prisma.recipe.findUnique({
       where: { id: id.id },
     });
   }
 
   async findAll(): Promise<Recipe[]> {
-    return await this.prisma.recipe.findMany();
+    return this.prisma.recipe.findMany();
   }
 
   async findBy(query: FindRecipeByQuery): Promise<SingleRecipeDto | null> {
-    return await this.prisma.recipe.findUnique({
+    return this.prisma.recipe.findUnique({
       where: {
         title: query.title,
       },

@@ -5,7 +5,8 @@ import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-reci
 import { TestingModule, Test } from '@nestjs/testing';
 import { RecipeFactory } from '../factories/recipe.factory';
 import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
-
+import { Logger } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 describe('RecipeRepository', () => {
   let recipeRepository: RecipeRepository;
   const prismaMock = {
@@ -20,6 +21,14 @@ describe('RecipeRepository', () => {
     $disconnect: jest.fn(),
   };
 
+  const mockLogger = {
+    log: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    debug: jest.fn(),
+    verbose: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -27,6 +36,10 @@ describe('RecipeRepository', () => {
         {
           provide: PrismaService,
           useValue: prismaMock,
+        },
+        {
+          provide: Logger,
+          useValue: mockLogger,
         },
       ],
     }).compile();
@@ -46,6 +59,57 @@ describe('RecipeRepository', () => {
         data: data,
       });
       expect(result).toEqual(createdRecipe);
+    });
+    it('should throw an error if recipe already exists', async () => {
+      const data = await RecipeFactory.create();
+      const recipeCommand: RecipeCreateCommand = new RecipeCreateCommand(data);
+      const knowErrorParams = {
+        code: 'P2002',
+      } as Prisma.PrismaClientKnownRequestError;
+      prismaMock.recipe.create.mockRejectedValue(
+        new Prisma.PrismaClientKnownRequestError(
+          `A recipe with this title already exists.`,
+          knowErrorParams,
+        ),
+      );
+
+      await expect(recipeRepository.create(recipeCommand)).rejects.toThrow(
+        'A recipe with this title already exists.',
+      );
+    });
+    it('should throw an error if exists missing fields', async () => {
+      const data = await RecipeFactory.create();
+      const recipeCommand: RecipeCreateCommand = new RecipeCreateCommand(data);
+      const knowErrorParams = {
+        code: 'P2012',
+      } as Prisma.PrismaClientKnownRequestError;
+      prismaMock.recipe.create.mockRejectedValue(
+        new Prisma.PrismaClientKnownRequestError(
+          `Missing required fields for creating a recipe.`,
+          knowErrorParams,
+        ),
+      );
+
+      await expect(recipeRepository.create(recipeCommand)).rejects.toThrow(
+        'Missing required fields for creating a recipe.',
+      );
+    });
+    it('should throw an error on a unknown handled error code', async () => {
+      const data = await RecipeFactory.create();
+      const recipeCommand: RecipeCreateCommand = new RecipeCreateCommand(data);
+      const knowErrorParams = {
+        code: 'P2013',
+      } as Prisma.PrismaClientKnownRequestError;
+      prismaMock.recipe.create.mockRejectedValue(
+        new Prisma.PrismaClientKnownRequestError(
+          `Error creating new recipe: ${knowErrorParams.code}`,
+          knowErrorParams,
+        ),
+      );
+
+      await expect(recipeRepository.create(recipeCommand)).rejects.toThrow(
+        `Error creating new recipe: ${knowErrorParams.code}`,
+      );
     });
   });
 
@@ -68,6 +132,27 @@ describe('RecipeRepository', () => {
       expect(result).toEqual(updatedRecipe);
     });
 
+    it('should throw an error if exists missing fields', async () => {
+      const data = await RecipeFactory.update();
+      const recipeCommand: UpdateRecipeCommand = new UpdateRecipeCommand(
+        data.id,
+        data,
+      );
+      const knowErrorParams = {
+        code: 'P2025',
+      } as Prisma.PrismaClientKnownRequestError;
+      prismaMock.recipe.update.mockRejectedValue(
+        new Prisma.PrismaClientKnownRequestError(
+          `Recipe with ID ${data.id} not found.`,
+          knowErrorParams,
+        ),
+      );
+
+      await expect(recipeRepository.update(recipeCommand)).rejects.toThrow(
+        `Recipe with ID ${data.id} not found.`,
+      );
+    });
+
     it('should throw an error if update fails', async () => {
       const id = 1;
       const updateCommand: UpdateRecipeCommand = new UpdateRecipeCommand(
@@ -77,6 +162,9 @@ describe('RecipeRepository', () => {
       prismaMock.recipe.update.mockRejectedValue(new Error('Update failed'));
 
       await expect(recipeRepository.update(updateCommand)).rejects.toThrow(
+        'Error updating recipe: Update failed',
+      );
+      expect(mockLogger.error).toHaveBeenCalledWith(
         'Error updating recipe: Update failed',
       );
     });
@@ -137,6 +225,37 @@ describe('RecipeRepository', () => {
       expect(prismaMock.recipe.delete).toHaveBeenCalledWith({
         where: { id },
       });
+    });
+    it('should return false if record was not found', async () => {
+      const id = 1;
+      const knowErrorParams = {
+        code: 'P2025',
+      } as Prisma.PrismaClientKnownRequestError;
+      prismaMock.recipe.delete.mockRejectedValue(
+        new Prisma.PrismaClientKnownRequestError(
+          `Recipe with ID ${id} not found.`,
+          knowErrorParams,
+        ),
+      );
+      const result = await recipeRepository.delete(id);
+      expect(result).toEqual(false);
+    });
+
+    it('should throw an error because of unknown error code', async () => {
+      const id = 1;
+      const knowErrorParams = {
+        code: 'P2013',
+      } as Prisma.PrismaClientKnownRequestError;
+      prismaMock.recipe.delete.mockRejectedValue(
+        new Prisma.PrismaClientKnownRequestError(
+          `failed to delete recipe: ${knowErrorParams.code}`,
+          knowErrorParams,
+        ),
+      );
+
+      await expect(recipeRepository.delete(id)).rejects.toThrow(
+        `Error deleting recipe: failed to delete recipe: ${knowErrorParams.code}`,
+      );
     });
   });
 });
