@@ -3,7 +3,7 @@ import { RecipeFactory } from '@src/modules/recipe/factories/recipe.factory';
 import { UpdateRecipeHandler } from '@src/modules/recipe/app/command/update-recipe.handler';
 import { faker } from '@faker-js/faker';
 import { Repository } from '../../entities/recipe.repository';
-import { RecipeRepository } from '../../adapters/recipe_repository';
+import { RecipeRepository } from '../../adapters/recipe.repository';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
 
 const recipeRepositoryMock: jest.Mocked<Repository> = {
