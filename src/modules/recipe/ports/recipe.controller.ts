@@ -13,7 +13,7 @@ import {
 import { CreateRecipeDto } from '../domain/recipe/create-recipe.dto';
 import { UpdateRecipeDto } from '../domain/recipe/update-recipe.dto';
 import { SingleRecipeDto } from '@src/modules/recipe/domain/recipe/single-recipe.dto';
-import { RecipeService } from '@src/modules/recipe/service/recipe.service';
+import { RecipeService } from '@src/modules/recipe/app/service/recipe.service';
 import { RecipeExceptionFilter } from '@src/modules/recipe/app/filter/recipe-exception.filter';
 import {
   ApiBadRequestResponse,

@@ -1,5 +1,5 @@
 import { TitleExistsValidator } from './unique-title.validator';
-import { RecipeService } from '@src/modules/recipe/service/recipe.service';
+import { RecipeService } from '@src/modules/recipe/app/service/recipe.service';
 import { ValidationArguments } from 'class-validator';
 
 let validator: TitleExistsValidator;
