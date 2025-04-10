@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
 import { FindRecipeByQuery } from '@src/modules/recipe/app/query/find-recipe-by.query';
-import { CreateRecipeDto } from '../domain/recipe/create-recipe.dto';
-import { UpdateRecipeDto } from '../domain/recipe/update-recipe.dto';
+import { CreateRecipeDto } from '../../domain/recipe/create-recipe.dto';
+import { UpdateRecipeDto } from '../../domain/recipe/update-recipe.dto';
 import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
 import { FindAllRecipesQuery } from '@src/modules/recipe/app/query/find-all-recipes-query';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';

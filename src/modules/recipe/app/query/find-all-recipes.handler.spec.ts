@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RecipeFactory } from '@src/modules/recipe/factories/recipe.factory';
-import { PrismaModule } from '@src/prisma/prisma.module';
+import { PrismaModule } from '@src/modules/prisma/prisma.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { Repository } from '../../entities/recipe.repository';
 import { RecipeRepository } from '../../adapters/recipe.repository';

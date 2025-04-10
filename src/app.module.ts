@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PrismaModule } from './prisma/prisma.module';
+import { PrismaModule } from '@src/modules/prisma/prisma.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ConfigModule } from '@nestjs/config';
 import * as redisStore from 'cache-manager-redis-store';
@@ -9,6 +9,7 @@ import { RecipeModule } from '@src/modules/recipe/recipe.module';
 import { LoggerModule } from 'nestjs-pino';
 
 import { randomUUID } from 'node:crypto';
+import { PrometheusModule } from '@src/modules/prometheus/prometheus.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { randomUUID } from 'node:crypto';
     }),
     PrismaModule,
     RecipeModule,
+    PrometheusModule,
     CacheModule.register({
       isGlobal: true,
       store: redisStore,
