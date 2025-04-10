@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RecipeController } from './recipe.controller';
 import { RecipeService } from '@src/modules/recipe/app/service/recipe.service';
-import { CreateRecipeDto } from '../domain/recipe/create-recipe.dto';
-import { UpdateRecipeDto } from '../domain/recipe/update-recipe.dto';
+import { CreateRecipeDto } from '@src/modules/recipe/app/dtos/create-recipe.dto';
+import { UpdateRecipeDto } from '@src/modules/recipe/app/dtos/update-recipe.dto';
 
 describe('RecipeController', () => {
   let controller: RecipeController;

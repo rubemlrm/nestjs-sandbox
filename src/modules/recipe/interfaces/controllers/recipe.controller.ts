@@ -10,11 +10,11 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { CreateRecipeDto } from '../domain/recipe/create-recipe.dto';
-import { UpdateRecipeDto } from '../domain/recipe/update-recipe.dto';
-import { SingleRecipeDto } from '@src/modules/recipe/domain/recipe/single-recipe.dto';
+import { CreateRecipeDto } from '@src/modules/recipe/app/dtos/create-recipe.dto';
+import { UpdateRecipeDto } from '@src/modules/recipe/app/dtos/update-recipe.dto';
+import { SingleRecipeDto } from '@src/modules/recipe/app/dtos/single-recipe.dto';
 import { RecipeService } from '@src/modules/recipe/app/service/recipe.service';
-import { RecipeExceptionFilter } from '@src/modules/recipe/app/filter/recipe-exception.filter';
+import { RecipeExceptionFilter } from '@src/modules/recipe/interfaces/filter/recipe-exception.filter';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -24,10 +24,11 @@ import {
   ApiOkResponse,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
+import { RecipeControllerInterface } from '@src/modules/recipe/interfaces/controllers/recipe.controller.interface';
 
 @Controller('recipe')
 @UseFilters(new RecipeExceptionFilter())
-export class RecipeController {
+export class RecipeController implements RecipeControllerInterface {
   constructor(private readonly recipeService: RecipeService) {}
 
   @Post()

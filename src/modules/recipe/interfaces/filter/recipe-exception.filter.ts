@@ -4,7 +4,7 @@ import {
   ArgumentsHost,
   HttpStatus,
 } from '@nestjs/common';
-import { RecipeNotFoundException } from '../exception/recipe-not-found.exception';
+import { RecipeNotFoundException } from '@src/modules/recipe/domain/exception/recipe-not-found.exception';
 
 @Catch(RecipeNotFoundException)
 export class RecipeExceptionFilter implements ExceptionFilter {

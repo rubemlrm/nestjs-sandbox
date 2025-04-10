@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { RecipeRepository } from '@src/modules/recipe/adapters/recipe.repository';
+import { RecipeRepository } from '@src/modules/recipe/infrastructure/repositories/recipe.repository';
 import { FindRecipeByQuery } from '@src/modules/recipe/app/query/find-recipe-by.query';
 
 @Injectable()

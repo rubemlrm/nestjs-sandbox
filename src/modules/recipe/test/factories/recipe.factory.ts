@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { CreateRecipeDto } from '@src/modules/recipe/domain/recipe/create-recipe.dto';
-import { UpdateRecipeDto } from '@src/modules/recipe/domain/recipe/update-recipe.dto';
+import { CreateRecipeDto } from '@src/modules/recipe/app/dtos/create-recipe.dto';
+import { UpdateRecipeDto } from '@src/modules/recipe/app/dtos/update-recipe.dto';
 
 export class RecipeFactory {
   static async create(): Promise<CreateRecipeDto> {

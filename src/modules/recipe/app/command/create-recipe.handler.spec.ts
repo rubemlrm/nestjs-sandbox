@@ -1,10 +1,10 @@
 import { CreateRecipeHandler } from '@src/modules/recipe/app/command/create-recipe.handler';
 import { Test, TestingModule } from '@nestjs/testing';
-import { RecipeFactory } from '@src/modules/recipe/factories/recipe.factory';
+import { RecipeFactory } from '@src/modules/recipe/test/factories/recipe.factory';
 import { PrismaModule } from '@src/modules/prisma/prisma.module';
 import { CqrsModule } from '@nestjs/cqrs';
-import { Repository } from '../../entities/recipe.repository';
-import { RecipeRepository } from '../../adapters/recipe.repository';
+import { Repository } from '@src/modules/recipe/domain/recipe/repositories/recipe.repository.interface';
+import { RecipeRepository } from '@src/modules/recipe/infrastructure/repositories/recipe.repository';
 import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
 
 const recipeRepositoryMock: jest.Mocked<Repository> = {

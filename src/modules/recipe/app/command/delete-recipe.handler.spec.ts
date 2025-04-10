@@ -1,10 +1,10 @@
 import { DeleteRecipeHandler } from '@src/modules/recipe/app/command/delete-recipe.handler';
 import { Test, TestingModule } from '@nestjs/testing';
-import { RecipeRepository } from '../../adapters/recipe.repository';
-import { Repository } from '../../entities/recipe.repository';
+import { RecipeRepository } from '@src/modules/recipe/infrastructure/repositories/recipe.repository';
+import { Repository } from '@src/modules/recipe/domain/recipe/repositories/recipe.repository.interface';
 import { faker } from '@faker-js/faker';
 import { DeleteRecipeCommand } from '@src/modules/recipe/app/command/delete-recipe.command';
-import { RecipeNotFoundException } from '@src/modules/recipe/app/exception/recipe-not-found.exception';
+import { RecipeNotFoundException } from '@src/modules/recipe/domain/exception/recipe-not-found.exception';
 
 const recipeRepositoryMock: jest.Mocked<Repository> = {
   create: jest.fn(),

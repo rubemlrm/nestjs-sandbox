@@ -1,9 +1,9 @@
 import { RecipeRepository } from './recipe.repository';
-import { PrismaService } from '@src/modules/prisma/prisma.service';
+import { PrismaService } from '@src/modules/prisma/app/service/prisma.service';
 import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
 import { TestingModule, Test } from '@nestjs/testing';
-import { RecipeFactory } from '../factories/recipe.factory';
+import { RecipeFactory } from '@src/modules/recipe/test/factories/recipe.factory';
 import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
 import { Logger } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
