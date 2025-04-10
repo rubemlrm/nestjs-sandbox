@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RecipeController } from './recipe.controller';
-import { RecipeService } from '@src/modules/recipe/service/recipe.service';
+import { RecipeService } from '@src/modules/recipe/app/service/recipe.service';
 import { CreateRecipeDto } from '../domain/recipe/create-recipe.dto';
 import { UpdateRecipeDto } from '../domain/recipe/update-recipe.dto';
 

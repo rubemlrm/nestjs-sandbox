@@ -1,5 +1,5 @@
 import { IsString, IsOptional, Validate } from 'class-validator';
-import { TitleExistsValidator } from '@src/modules/recipe/validators/unique-title.validator';
+import { TitleExistsValidator } from '@src/modules/recipe/app/validators/unique-title.validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateRecipeDto {

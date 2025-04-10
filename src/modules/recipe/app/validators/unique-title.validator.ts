@@ -4,7 +4,7 @@ import {
   ValidatorConstraintInterface,
   ValidationArguments,
 } from 'class-validator';
-import { RecipeService } from '@src/modules/recipe/service/recipe.service';
+import { RecipeService } from '@src/modules/recipe/app/service/recipe.service';
 
 @ValidatorConstraint({ name: 'TitleExists', async: true })
 @Injectable()

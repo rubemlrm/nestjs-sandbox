@@ -4,7 +4,7 @@ import {
   PostgreSqlContainer,
   StartedPostgreSqlContainer,
 } from '@testcontainers/postgresql';
-import { PrismaService } from '@src/prisma/prisma.service';
+import { PrismaService } from '@src/modules/prisma/prisma.service';
 import { RecipeRepository } from '@src/modules/recipe/adapters/recipe.repository';
 import { RecipeFactory } from '@src/modules/recipe/factories/recipe.factory';
 import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
