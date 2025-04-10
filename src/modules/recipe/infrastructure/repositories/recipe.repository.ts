@@ -1,13 +1,13 @@
-import { Repository } from '@src/modules/recipe/entities/recipe.repository';
-import { PrismaService } from '@src/modules/prisma/prisma.service';
+import { Repository } from '@src/modules/recipe/domain/recipe/repositories/recipe.repository.interface';
+import { PrismaService } from '@src/modules/prisma/app/service/prisma.service';
 import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
 import { Injectable, Logger } from '@nestjs/common';
-import { FindRecipeByQuery } from '../app/query/find-recipe-by.query';
+import { FindRecipeByQuery } from '../../app/query/find-recipe-by.query';
 import { Prisma, Recipe } from '@prisma/client';
 import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
-import { UpdateRecipeDto } from '@src/modules/recipe/domain/recipe/update-recipe.dto';
-import { SingleRecipeDto } from '@src/modules/recipe/domain/recipe/single-recipe.dto';
+import { UpdateRecipeDto } from '@src/modules/recipe/app/dtos/update-recipe.dto';
+import { SingleRecipeDto } from '@src/modules/recipe/app/dtos/single-recipe.dto';
 
 @Injectable()
 export class RecipeRepository implements Repository {

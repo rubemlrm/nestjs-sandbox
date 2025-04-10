@@ -1,8 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
-import { CacheResult } from '@src/modules/common/redis/redis.decorator';
+import { CacheResult } from '@src/modules/shared/redis/redis.decorator';
 import { Injectable } from '@nestjs/common';
-import { RecipeRepository } from '../../adapters/recipe.repository';
+import { RecipeRepository } from '@src/modules/recipe/infrastructure/repositories/recipe.repository';
 
 @CommandHandler(RecipeCreateCommand)
 @Injectable()

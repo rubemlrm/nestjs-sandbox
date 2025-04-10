@@ -1,6 +1,6 @@
-import { RecipeNotFoundException } from '@src/modules/recipe/app/exception/recipe-not-found.exception';
+import { RecipeNotFoundException } from '@src/modules/recipe/domain/exception/recipe-not-found.exception';
 import { ArgumentsHost, HttpStatus } from '@nestjs/common';
-import { RecipeExceptionFilter } from '@src/modules/recipe/app/filter/recipe-exception.filter';
+import { RecipeExceptionFilter } from '@src/modules/recipe/interfaces/filter/recipe-exception.filter';
 
 let filter: RecipeExceptionFilter;
 let mockArgumentsHost: jest.Mocked<ArgumentsHost>;

@@ -3,15 +3,15 @@ import { RecipeService } from './recipe.service';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { RecipeCreateCommand } from '@src/modules/recipe/app/command/create-recipe.command';
 import { FindRecipeByQuery } from '@src/modules/recipe/app/query/find-recipe-by.query';
-import { CreateRecipeDto } from '../../domain/recipe/create-recipe.dto';
-import { UpdateRecipeDto } from '../../domain/recipe/update-recipe.dto';
+import { CreateRecipeDto } from '@src/modules/recipe/app/dtos/create-recipe.dto';
+import { UpdateRecipeDto } from '@src/modules/recipe/app/dtos/update-recipe.dto';
 import { FindRecipeQuery } from '@src/modules/recipe/app/query/find-recipe.query';
 import { FindAllRecipesQuery } from '@src/modules/recipe/app/query/find-all-recipes-query';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
-import { RecipeNotFoundException } from '@src/modules/recipe/app/exception/recipe-not-found.exception';
+import { RecipeNotFoundException } from '@src/modules/recipe/domain/exception/recipe-not-found.exception';
 import { DeleteRecipeCommand } from '@src/modules/recipe/app/command/delete-recipe.command';
-import { LoggingCommandbus } from '@src/modules/common/logging/logging.commandbus';
-import { LoggingQuerybus } from '@src/modules/common/logging/logging.querybus';
+import { LoggingCommandbus } from '@src/modules/shared/logging/logging.commandbus';
+import { LoggingQuerybus } from '@src/modules/shared/logging/logging.querybus';
 
 describe('RecipeService', () => {
   let service: RecipeService;

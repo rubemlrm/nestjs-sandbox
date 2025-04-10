@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DeleteRecipeCommand } from '@src/modules/recipe/app/command/delete-recipe.command';
-import { RecipeRepository } from '../../adapters/recipe.repository';
-import { RecipeNotFoundException } from '@src/modules/recipe/app/exception/recipe-not-found.exception';
+import { RecipeRepository } from '@src/modules/recipe/infrastructure/repositories/recipe.repository';
+import { RecipeNotFoundException } from '@src/modules/recipe/domain/exception/recipe-not-found.exception';
 
 @Injectable()
 @CommandHandler(DeleteRecipeCommand)

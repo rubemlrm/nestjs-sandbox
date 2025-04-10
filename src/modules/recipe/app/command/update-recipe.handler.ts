@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { RecipeRepository } from '../../adapters/recipe.repository';
-import { UpdateRecipeDto } from '@src/modules/recipe/domain/recipe/update-recipe.dto';
+import { RecipeRepository } from '@src/modules/recipe/infrastructure/repositories/recipe.repository';
+import { UpdateRecipeDto } from '@src/modules/recipe/app/dtos/update-recipe.dto';
 
 @Injectable()
 @CommandHandler(UpdateRecipeCommand)

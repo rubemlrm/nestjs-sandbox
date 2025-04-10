@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RecipeFactory } from '@src/modules/recipe/factories/recipe.factory';
+import { RecipeFactory } from '@src/modules/recipe/test/factories/recipe.factory';
 import { UpdateRecipeHandler } from '@src/modules/recipe/app/command/update-recipe.handler';
 import { faker } from '@faker-js/faker';
-import { Repository } from '../../entities/recipe.repository';
-import { RecipeRepository } from '../../adapters/recipe.repository';
+import { Repository } from '@src/modules/recipe/domain/recipe/repositories/recipe.repository.interface';
+import { RecipeRepository } from '@src/modules/recipe/infrastructure/repositories/recipe.repository';
 import { UpdateRecipeCommand } from '@src/modules/recipe/app/command/update-recipe.command';
 
 const recipeRepositoryMock: jest.Mocked<Repository> = {
