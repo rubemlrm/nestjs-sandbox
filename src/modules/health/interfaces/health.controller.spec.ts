@@ -10,9 +10,7 @@ import { PrismaService } from '@src/modules/prisma/app/service/prisma.service';
 describe('HealthController', () => {
   let healthController: HealthController;
   let healthCheckService: HealthCheckService;
-  let httpHealthIndicator: HttpHealthIndicator;
   let prismaHealthIndicator: PrismaHealthIndicator;
-  let prismaService: PrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -39,11 +37,9 @@ describe('HealthController', () => {
 
     healthController = module.get<HealthController>(HealthController);
     healthCheckService = module.get<HealthCheckService>(HealthCheckService);
-    httpHealthIndicator = module.get<HttpHealthIndicator>(HttpHealthIndicator);
     prismaHealthIndicator = module.get<PrismaHealthIndicator>(
       PrismaHealthIndicator,
     );
-    prismaService = module.get<PrismaService>(PrismaService);
   });
 
   it('returns an empty array for liveness check', async () => {
