@@ -5,9 +5,9 @@ import { ConfigModule } from '@nestjs/config';
 import * as redisStore from 'cache-manager-redis-store';
 import { RecipeModule } from '@src/modules/recipe/recipe.module';
 import { LoggerModule } from 'nestjs-pino';
-
 import { randomUUID } from 'node:crypto';
 import { PrometheusModule } from '@src/modules/prometheus/prometheus.module';
+import { HealthModule } from './modules/health/health.module';
 
 @Module({
   imports: [
@@ -51,6 +51,7 @@ import { PrometheusModule } from '@src/modules/prometheus/prometheus.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    HealthModule,
   ],
   controllers: [],
   providers: [],
