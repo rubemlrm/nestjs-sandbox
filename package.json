@@ -30,7 +30,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.1.0",
     "@nestjs/terminus": "^11.0.0",
-    "axios": "^1.8.4",
+    "axios": "^1.13.5",
     "cache-manager": "^6.4.1",
     "cache-manager-redis-store": "^2.0.0",
     "class-transformer": "^0.5.1",
